@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\composants">
+      <UniqueIdentifier>{de02da9b-ef21-4142-af02-2fbe05c791e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\composants">
+      <UniqueIdentifier>{ee0a7115-55a5-455c-9aab-6b845610e8be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\service">
+      <UniqueIdentifier>{152c763c-769d-4588-9186-d870c4f3a14e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\service">
+      <UniqueIdentifier>{38c1ea93-d75f-46f9-9355-88a4dd3fc184}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\ihm">
+      <UniqueIdentifier>{8ac27f69-05c5-4744-a6ec-63c649a12aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\ihm">
+      <UniqueIdentifier>{53e704fb-8dad-49f6-93af-d94b1b77fda6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Fichiers sources\service</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Fichiers sources\composants</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Fichiers sources\composants</Filter>
+    </ClCompile>
+    <ClCompile Include="AliveCell.cpp">
+      <Filter>Fichiers sources\composants</Filter>
+    </ClCompile>
+    <ClCompile Include="DeadCell.cpp">
+      <Filter>Fichiers sources\composants</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Fichiers sources\ihm</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleView.cpp">
+      <Filter>Fichiers sources\ihm</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicView.cpp">
+      <Filter>Fichiers sources\ihm</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractionHandler.cpp">
+      <Filter>Fichiers sources\ihm</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Fichiers d%27en-tête\service</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Fichiers d%27en-tête\composants</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Fichiers d%27en-tête\composants</Filter>
+    </ClInclude>
+    <ClInclude Include="AliveCell.h">
+      <Filter>Fichiers d%27en-tête\composants</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadCell.h">
+      <Filter>Fichiers d%27en-tête\composants</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>Fichiers d%27en-tête\ihm</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleView.h">
+      <Filter>Fichiers d%27en-tête\ihm</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicView.h">
+      <Filter>Fichiers d%27en-tête\ihm</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractionHandler.h">
+      <Filter>Fichiers d%27en-tête\ihm</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="fichier.txt" />
+  </ItemGroup>
+</Project>
