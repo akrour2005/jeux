@@ -3,7 +3,7 @@
 #include <chrono>
 #include <iostream>
 
-Game::Game(int width, int height) {
+Game::Game(int width, int height) { 
     grid = new Grid(width, height);
     view = nullptr;
     maxIterations = 0;

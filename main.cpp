@@ -4,7 +4,6 @@
 #include "Game.h"
 #include "ConsoleView.h"
 #include "GraphicView.h"
-
 int main() {
     // Taille de la grille pour la console : 5x10
     int width = 10, height = 5;
