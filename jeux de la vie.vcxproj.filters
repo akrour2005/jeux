@@ -31,6 +31,12 @@
     <Filter Include="Fichiers sources\ihm">
       <UniqueIdentifier>{53e704fb-8dad-49f6-93af-d94b1b77fda6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{0dea1abf-cb58-46e5-837f-4f5d0a50f917}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\fonts">
+      <UniqueIdentifier>{495dab3b-e7cc-4498-8a31-b7139fea5c5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -63,6 +69,9 @@
     <ClCompile Include="InteractionHandler.cpp">
       <Filter>Fichiers sources\ihm</Filter>
     </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>Fichiers sources\ihm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -92,8 +101,16 @@
     <ClInclude Include="InteractionHandler.h">
       <Filter>Fichiers d%27en-tête\ihm</Filter>
     </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>Fichiers d%27en-tête\ihm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fichier.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\WINDOWS\Fonts\8514OEM.FON">
+      <Filter>assets\fonts</Filter>
+    </None>
   </ItemGroup>
 </Project>

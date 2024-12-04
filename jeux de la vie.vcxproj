@@ -148,6 +148,7 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="InteractionHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,10 +160,14 @@
     <ClInclude Include="GraphicView.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="InteractionHandler.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="View.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="fichier.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\WINDOWS\Fonts\8514OEM.FON" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

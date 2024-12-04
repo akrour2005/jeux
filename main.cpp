@@ -1,47 +1,60 @@
 #include <iostream>
-#include <thread>   // Inclus pour std::this_thread
-#include <chrono>   // Inclus pour std::chrono
+#include <thread>
+#include <chrono>
 #include "Game.h"
 #include "ConsoleView.h"
 #include "GraphicView.h"
+#include "menu.h"
+
 int main() {
-    // Taille de la grille pour la console : 5x10
-    int width = 10, height = 5;
+    int width = 20, height = 20; // Taille de la grille
     std::string inputFile = "fichier.txt"; // Fichier d'initialisation
 
-    std::cout << "Bienvenue dans le Jeu de la Vie !\n";
-    std::cout << "Choisissez le mode d'affichage :\n";
-    std::cout << "1. Mode Console\n";
-    std::cout << "2. Mode Graphique\n";
-    std::cout << "Votre choix : ";
+    std::cout << "---------------------------------------------\n";
+    std::cout << "           BIENVENUE DANS LE JEU DE LA VIE!\n";
+    std::cout << "---------------------------------------------\n";
+    std::cout << "Choisissez votre mode d'affichage :\n";
+    std::cout << "  1. Mode Console : une vue simple et rapide.\n";
+    std::cout << "  2. Mode Graphique : une vue interactive.\n";
+    std::cout << "---------------------------------------------\n";
+    std::cout << "Entrez votre choix (1 ou 2) : ";
 
     int choice;
     std::cin >> choice;
 
     if (choice != 1 && choice != 2) {
-        std::cerr << "Choix invalide. Le programme va se terminer.\n";
-        return 1; // Code d'erreur
+        std::cerr << "Erreur : choix invalide. Veuillez redémarrer le jeu.\n";
+        return 1; // Fin du programme
     }
 
-    // Création du jeu
+    // Initialisation du jeu
     Game game(width, height);
-    game.initialize(inputFile);
+    try {
+        game.initialize(inputFile);
+        std::cout << "Chargement de la grille à partir du fichier : " << inputFile << "\n";
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Erreur lors de l'initialisation de la grille : " << e.what() << "\n";
+        return 1;
+    }
 
+    Menu menu;  // Créer l'instance du menu
     if (choice == 1) {
         // Mode Console
         int maxIterations, iterationSpeed;
 
-        std::cout << "Entrez le nombre d'itérations : ";
+        std::cout << "\n--- Mode Console sélectionné ---\n";
+        std::cout << "Entrez le nombre maximum d'itérations : ";
         std::cin >> maxIterations;
         if (maxIterations <= 0) {
-            std::cerr << "Nombre d'itérations invalide. Le programme va se terminer.\n";
+            std::cerr << "Erreur : le nombre d'itérations doit être supérieur à 0.\n";
             return 1;
         }
 
-        std::cout << "Entrez la vitesse d'itération (en ms) : ";
+        std::cout << "Entrez la vitesse d'itération (en millisecondes) : ";
         std::cin >> iterationSpeed;
         if (iterationSpeed <= 0) {
-            std::cerr << "Vitesse d'itération invalide. Le programme va se terminer.\n";
+            std::cerr << "Erreur : la vitesse doit être supérieure à 0.\n";
             return 1;
         }
 
@@ -51,19 +64,24 @@ int main() {
         ConsoleView* consoleView = new ConsoleView();
         game.setView(consoleView);
 
-        // Afficher l'état initial de la grille
-        std::cout << "État initial :\n";
+        std::cout << "---------------------------------------------\n";
+        std::cout << "      Jeu de la Vie - Mode Console\n";
+        std::cout << "---------------------------------------------\n";
+        std::cout << "État initial de la grille :\n";
         consoleView->display(*game.getGrid());
 
-        // Boucle principale du jeu en mode console
+        // Boucle principale
         for (int i = 0; i < maxIterations; ++i) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(iterationSpeed));  // Pause entre les itérations
+            std::this_thread::sleep_for(std::chrono::milliseconds(iterationSpeed));
             game.updateGrid();
             std::cout << "Itération " << i + 1 << " :\n";
             consoleView->display(*game.getGrid());
         }
 
-        // Nettoyage
+        std::cout << "---------------------------------------------\n";
+        std::cout << " Simulation terminée ! Merci d'avoir joué.\n";
+        std::cout << "---------------------------------------------\n";
+
         delete consoleView;
 
     }
@@ -71,18 +89,30 @@ int main() {
         // Mode Graphique
         int iterationSpeed;
 
-        std::cout << "Entrez la vitesse d'itération (en ms) : ";
+        std::cout << "\n--- Mode Graphique sélectionné ---\n";
+        std::cout << "Entrez la vitesse d'itération (en millisecondes) : ";
         std::cin >> iterationSpeed;
         if (iterationSpeed <= 0) {
-            std::cerr << "Vitesse d'itération invalide. Le programme va se terminer.\n";
+            std::cerr << "Erreur : la vitesse doit être supérieure à 0.\n";
             return 1;
         }
 
-        // Crée une vue graphique
         GraphicView* graphicView = new GraphicView(width, height, 20, iterationSpeed);
         game.setView(graphicView);
 
-        // Boucle principale pour le mode graphique
+        std::cout << "---------------------------------------------\n";
+        std::cout << "     Jeu de la Vie - Mode Graphique\n";
+        std::cout << "    Appuyez sur 'Start' pour commencer.\n";
+        std::cout << "---------------------------------------------\n";
+
+        // Afficher le menu tant que l'utilisateur n'a pas sélectionné "Start"
+        while (!menu.isStartSelected()) {
+            menu.handleInput(); // Gère les entrées de l'utilisateur (sélectionne 'Start' ou 'Quitter')
+        }
+
+        // Une fois que "Start" est sélectionné, commencer la simulation graphique
+        std::cout << "Démarrage de la simulation...\n";
+
         while (graphicView->isRunning()) {
             graphicView->handleInput(*game.getGrid());
             if (!graphicView->isPaused()) {
@@ -92,11 +122,12 @@ int main() {
             }
         }
 
-        // Nettoyage
+        std::cout << "---------------------------------------------\n";
+        std::cout << " Simulation terminée ! Merci d'avoir joué.\n";
+        std::cout << "---------------------------------------------\n";
+
         delete graphicView;
     }
 
-    std::cout << "Merci d'avoir joué ! À bientôt !\n";
-    return 0; // Fin du programme
+    return 0;
 }
-
