@@ -5,7 +5,6 @@
 #include "Game.h"
 #include "ConsoleView.h"
 #include "GraphicView.h"
-#include "menu.h"
 
 int main() {
     int width = 20, height = 20;          // Taille de la grille
@@ -93,12 +92,11 @@ int main() {
         // Fenêtre de Menu
         sf::RenderWindow menuWindow(sf::VideoMode(800, 600), "Menu - Jeu de la Vie");
 
-        // Création du bouton Start
+        // Création des boutons
         sf::RectangleShape startButton(sf::Vector2f(200, 50));
         startButton.setPosition(300, 200);
         startButton.setFillColor(sf::Color::Green);
 
-        // Création du bouton Quitter
         sf::RectangleShape quitButton(sf::Vector2f(200, 50));
         quitButton.setPosition(300, 300);
         quitButton.setFillColor(sf::Color::Red);
@@ -119,6 +117,7 @@ int main() {
                         }
                         else if (quitButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                             menuWindow.close(); // Quitter le jeu
+                            return 0;
                         }
                     }
                 }

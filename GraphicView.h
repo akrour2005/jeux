@@ -7,10 +7,20 @@
 
 class GraphicView : public View {
 private:
-    sf::RenderWindow window; // Fenêtre SFML
-    int iterationSpeed;      // Vitesse des itérations (en millisecondes)
-    int cellSize;            // Taille de chaque cellule (en pixels)
-    bool paused;             // État de pause du jeu
+    sf::RenderWindow window;           // Fenêtre SFML
+    sf::RectangleShape buttonBar;      // Barre des boutons
+    sf::RectangleShape pauseButton;    // Bouton Pause
+    sf::RectangleShape speedUpButton;  // Bouton Augmenter vitesse
+    sf::RectangleShape slowDownButton; // Bouton Diminuer vitesse
+    sf::RectangleShape quitButton;     // Bouton Quitter
+    sf::Font font;                     // Police pour les boutons
+    sf::Text pauseText, speedUpText, slowDownText, quitText; // Textes des boutons
+
+    int iterationSpeed; // Vitesse des itérations (en millisecondes)
+    int cellSize;       // Taille de chaque cellule (en pixels)
+    bool paused;        // État de pause du jeu
+
+    void createButtons();
 
 public:
     GraphicView(int width, int height, int cellSize, int iterationSpeed);
