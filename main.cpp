@@ -1,3 +1,4 @@
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -7,7 +8,7 @@
 #include "menu.h"
 
 int main() {
-    int width = 20, height = 20; // Taille de la grille
+    int width = 20, height = 20;          // Taille de la grille
     std::string inputFile = "fichier.txt"; // Fichier d'initialisation
 
     std::cout << "---------------------------------------------\n";
@@ -38,7 +39,6 @@ int main() {
         return 1;
     }
 
-    Menu menu;  // Créer l'instance du menu
     if (choice == 1) {
         // Mode Console
         int maxIterations, iterationSpeed;
@@ -70,7 +70,7 @@ int main() {
         std::cout << "État initial de la grille :\n";
         consoleView->display(*game.getGrid());
 
-        // Boucle principale
+        // Boucle principale pour les itérations
         for (int i = 0; i < maxIterations; ++i) {
             std::this_thread::sleep_for(std::chrono::milliseconds(iterationSpeed));
             game.updateGrid();
@@ -87,46 +87,89 @@ int main() {
     }
     else if (choice == 2) {
         // Mode Graphique
-        int iterationSpeed;
+        int iterationSpeed = 200; // Vitesse initiale (en ms)
+        bool isPaused = false;   // État de pause
 
-        std::cout << "\n--- Mode Graphique sélectionné ---\n";
-        std::cout << "Entrez la vitesse d'itération (en millisecondes) : ";
-        std::cin >> iterationSpeed;
-        if (iterationSpeed <= 0) {
-            std::cerr << "Erreur : la vitesse doit être supérieure à 0.\n";
-            return 1;
-        }
+        // Fenêtre de Menu
+        sf::RenderWindow menuWindow(sf::VideoMode(800, 600), "Menu - Jeu de la Vie");
 
-        GraphicView* graphicView = new GraphicView(width, height, 20, iterationSpeed);
-        game.setView(graphicView);
+        // Création du bouton Start
+        sf::RectangleShape startButton(sf::Vector2f(200, 50));
+        startButton.setPosition(300, 200);
+        startButton.setFillColor(sf::Color::Green);
 
-        std::cout << "---------------------------------------------\n";
-        std::cout << "     Jeu de la Vie - Mode Graphique\n";
-        std::cout << "    Appuyez sur 'Start' pour commencer.\n";
-        std::cout << "---------------------------------------------\n";
+        // Création du bouton Quitter
+        sf::RectangleShape quitButton(sf::Vector2f(200, 50));
+        quitButton.setPosition(300, 300);
+        quitButton.setFillColor(sf::Color::Red);
 
-        // Afficher le menu tant que l'utilisateur n'a pas sélectionné "Start"
-        while (!menu.isStartSelected()) {
-            menu.handleInput(); // Gère les entrées de l'utilisateur (sélectionne 'Start' ou 'Quitter')
-        }
-
-        // Une fois que "Start" est sélectionné, commencer la simulation graphique
-        std::cout << "Démarrage de la simulation...\n";
-
-        while (graphicView->isRunning()) {
-            graphicView->handleInput(*game.getGrid());
-            if (!graphicView->isPaused()) {
-                game.updateGrid();
-                graphicView->display(*game.getGrid());
-                std::this_thread::sleep_for(std::chrono::milliseconds(iterationSpeed));
+        // Boucle de menu
+        bool startClicked = false;
+        while (menuWindow.isOpen() && !startClicked) {
+            sf::Event event;
+            while (menuWindow.pollEvent(event)) {
+                if (event.type == sf::Event::Closed) {
+                    menuWindow.close();
+                }
+                else if (event.type == sf::Event::MouseButtonPressed) {
+                    if (event.mouseButton.button == sf::Mouse::Left) {
+                        if (startButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                            std::cout << "Démarrage de la simulation...\n";
+                            startClicked = true; // Fermer la fenêtre menu et lancer la simulation
+                        }
+                        else if (quitButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                            menuWindow.close(); // Quitter le jeu
+                        }
+                    }
+                }
             }
+
+            // Dessiner les éléments du menu
+            menuWindow.clear();
+            menuWindow.draw(startButton);
+            menuWindow.draw(quitButton);
+            menuWindow.display();
         }
 
-        std::cout << "---------------------------------------------\n";
-        std::cout << " Simulation terminée ! Merci d'avoir joué.\n";
-        std::cout << "---------------------------------------------\n";
+        if (startClicked) {
+            // Créer et afficher la fenêtre de simulation après avoir cliqué sur Start
+            sf::RenderWindow window(sf::VideoMode(800, 600), "Jeu de la Vie - Mode Graphique");
 
-        delete graphicView;
+            GraphicView* graphicView = new GraphicView(width, height, 20, iterationSpeed);
+            game.setView(graphicView);
+
+            // Boucle principale pour les itérations graphiques
+            while (window.isOpen()) {
+                sf::Event event;
+                while (window.pollEvent(event)) {
+                    if (event.type == sf::Event::Closed) {
+                        window.close();
+                    }
+                    else if (event.type == sf::Event::KeyPressed) {
+                        if (event.key.code == sf::Keyboard::Up) {
+                            iterationSpeed = std::max(50, iterationSpeed - 50); // Augmente la vitesse
+                        }
+                        else if (event.key.code == sf::Keyboard::Down) {
+                            iterationSpeed += 50; // Diminue la vitesse
+                        }
+                        else if (event.key.code == sf::Keyboard::Space) {
+                            isPaused = !isPaused; // Met en pause ou reprend
+                        }
+                    }
+                }
+
+                if (!isPaused) {
+                    game.updateGrid();
+                    window.clear();
+                    graphicView->display(*game.getGrid());
+                    window.display();
+                    sf::sleep(sf::milliseconds(iterationSpeed)); // Attente en fonction de la vitesse
+                }
+            }
+
+            delete graphicView; // Libérer la mémoire après la simulation
+        }
+
     }
 
     return 0;

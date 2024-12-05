@@ -1,11 +1,22 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include <SFML/Graphics.hpp>
+
 class Menu {
+private:
+    sf::Font font;
+    sf::Text startOption;
+    sf::Text quitOption;
+    int selectedIndex;
+
 public:
-    void handleInput();              // Gère les entrées du menu
-    int getSelectedOption();         // Retourne l'option sélectionnée
-    bool isStartSelected() const;    // Vérifie si "Start" a été sélectionné
+    Menu(float width, float height);
+
+    void draw(sf::RenderWindow& window);  // Affiche le menu
+    void moveUp();                        // Déplace la sélection vers le haut
+    void moveDown();                      // Déplace la sélection vers le bas
+    int getSelectedOption() const;        // Retourne l'option sélectionnée
 };
 
 #endif // MENU_H

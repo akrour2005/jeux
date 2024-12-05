@@ -109,8 +109,13 @@
     <Text Include="fichier.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\WINDOWS\Fonts\8514OEM.FON">
+    <Font Include="..\..\OneDrive - Association Cesi Viacesi mail\Bureau\AGENCYB.TTF">
       <Filter>assets\fonts</Filter>
-    </None>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="aa.jpg">
+      <Filter>assets</Filter>
+    </Image>
   </ItemGroup>
 </Project>

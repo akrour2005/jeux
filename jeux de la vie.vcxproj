@@ -167,7 +167,10 @@
     <Text Include="fichier.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\WINDOWS\Fonts\8514OEM.FON" />
+    <Font Include="..\..\OneDrive - Association Cesi Viacesi mail\Bureau\AGENCYB.TTF" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="aa.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

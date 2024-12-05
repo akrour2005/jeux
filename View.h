@@ -5,9 +5,8 @@
 
 class View {
 public:
-    virtual ~View() {}
-    virtual void display(const Grid& grid) = 0;
+    virtual ~View() {}  // Destructeur virtuel pour garantir la destruction correcte des objets dérivés
+    virtual void display(const Grid& grid) = 0;  // Méthode virtuelle pure pour afficher la grille
 };
 
-#endif
-#pragma once
+#endif  // VIEW_H
