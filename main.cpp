@@ -276,39 +276,48 @@ int main() {
             GraphicView* graphicView = new GraphicView(width, height, 20, iterationSpeed);
             game.setView(graphicView);
 
-            // Création des rectangles pour les boutons supplémentaires
-            sf::RectangleShape pauseSquare(sf::Vector2f(30, 30));
-            pauseSquare.setPosition(50, 50);  // Position du bouton Pause
+            // Taille des boutons
+            sf::Vector2f buttonSize(200, 50); // Taille plus grande pour les boutons
+
+            // Positionner les boutons au centre de la fenêtre
+            float windowWidth = window.getSize().x;
+            float windowHeight = window.getSize().y;
+            float buttonSpacing = 20; // Espace entre les boutons
+
+            // Création des rectangles pour les boutons supplémentaires avec des tailles plus grandes
+            sf::RectangleShape pauseSquare(buttonSize);
+            pauseSquare.setPosition((windowWidth - buttonSize.x) / 2, (windowHeight - buttonSize.y) / 2 - 2 * (buttonSize.y + buttonSpacing));  // Position du bouton Pause
             pauseSquare.setFillColor(sf::Color::Green);
 
-            sf::RectangleShape quitSquare(sf::Vector2f(30, 30));
-            quitSquare.setPosition(50, 100);  // Position du bouton Quitter
+            sf::RectangleShape quitSquare(buttonSize);
+            quitSquare.setPosition((windowWidth - buttonSize.x) / 2, (windowHeight - buttonSize.y) / 2 + buttonSpacing);  // Position du bouton Quitter
             quitSquare.setFillColor(sf::Color::Red);
 
-            sf::RectangleShape speedUpSquare(sf::Vector2f(30, 30));
-            speedUpSquare.setPosition(50, 150);  // Position du bouton Augmenter la vitesse
+            sf::RectangleShape speedUpSquare(buttonSize);
+            speedUpSquare.setPosition((windowWidth - buttonSize.x) / 2, (windowHeight - buttonSize.y) / 2 + 2 * (buttonSize.y + buttonSpacing));  // Position du bouton Augmenter la vitesse
             speedUpSquare.setFillColor(sf::Color::Blue);
 
-            sf::RectangleShape slowDownSquare(sf::Vector2f(30, 30));
-            slowDownSquare.setPosition(50, 200);  // Position du bouton Diminuer la vitesse
+            sf::RectangleShape slowDownSquare(buttonSize);
+            slowDownSquare.setPosition((windowWidth - buttonSize.x) / 2, (windowHeight - buttonSize.y) / 2 + 3 * (buttonSize.y + buttonSpacing));  // Position du bouton Diminuer la vitesse
             slowDownSquare.setFillColor(sf::Color::Yellow);
 
             // Texte pour les boutons
             sf::Text pauseText("Pause", font, 20);
-            pauseText.setPosition(100, 50);
+            pauseText.setPosition(pauseSquare.getPosition() + sf::Vector2f((buttonSize.x - pauseText.getGlobalBounds().width) / 2, (buttonSize.y - pauseText.getGlobalBounds().height) / 2));
             pauseText.setFillColor(sf::Color::Black);
 
             sf::Text quitText("Quitter", font, 20);
-            quitText.setPosition(100, 100);
+            quitText.setPosition(quitSquare.getPosition() + sf::Vector2f((buttonSize.x - quitText.getGlobalBounds().width) / 2, (buttonSize.y - quitText.getGlobalBounds().height) / 2));
             quitText.setFillColor(sf::Color::Black);
 
             sf::Text speedUpText("Vitesse+", font, 20);
-            speedUpText.setPosition(100, 150);
+            speedUpText.setPosition(speedUpSquare.getPosition() + sf::Vector2f((buttonSize.x - speedUpText.getGlobalBounds().width) / 2, (buttonSize.y - speedUpText.getGlobalBounds().height) / 2));
             speedUpText.setFillColor(sf::Color::Black);
 
             sf::Text slowDownText("Vitesse-", font, 20);
-            slowDownText.setPosition(100, 200);
+            slowDownText.setPosition(slowDownSquare.getPosition() + sf::Vector2f((buttonSize.x - slowDownText.getGlobalBounds().width) / 2, (buttonSize.y - slowDownText.getGlobalBounds().height) / 2));
             slowDownText.setFillColor(sf::Color::Black);
+
 
             // Boucle principale pour les itérations graphiques
             while (window.isOpen()) {
@@ -370,7 +379,6 @@ int main() {
             delete graphicView; // Libérer la mémoire après la simulation
         }
 
-        }
-        return 0;
     }
-
+    return 0;
+}
