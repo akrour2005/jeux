@@ -5,10 +5,13 @@
 
 class Menu {
 private:
-    sf::Font font;
-    sf::Text startOption;
-    sf::Text quitOption;
-    int selectedIndex;
+    sf::Font font;              // Police du texte
+    sf::Text startOption;       // Bouton "Start"
+    sf::Text infoOption;        // Bouton "En savoir plus"
+    sf::Text quitOption;        // Bouton "Quitter"
+    sf::Texture backgroundTexture; // Texture pour l'arrière-plan
+    sf::Sprite background;      // Sprite pour afficher la texture
+    int selectedIndex;          // Index de sélection
 
 public:
     Menu(float width, float height);

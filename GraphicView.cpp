@@ -7,7 +7,7 @@ GraphicView::GraphicView(int width, int height, int cellSize, int iterationSpeed
     window.create(sf::VideoMode(width * cellSize, height * cellSize + 50), "Jeu de la Vie");
 
     // Chargement de la police pour les boutons
-    if (!font.loadFromFile("arial.ttf")) {
+    if (!font.loadFromFile("C:\\Users\\MSI 2023\\OneDrive - Association Cesi Viacesi mail\\Bureau\\AGENCYB.TTF")) {
         std::cerr << "Erreur : impossible de charger la police." << std::endl;
     }
 

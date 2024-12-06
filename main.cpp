@@ -7,7 +7,7 @@
 #include "GraphicView.h"
 
 int main() {
-    int width = 20, height = 20;          // Taille de la grille
+    int width = 40, height = 40;          // Taille de la grille
     std::string inputFile = "fichier.txt"; // Fichier d'initialisation
 
     std::cout << "---------------------------------------------\n";
@@ -38,53 +38,7 @@ int main() {
         return 1;
     }
 
-    if (choice == 1) {
-        // Mode Console
-        int maxIterations, iterationSpeed;
-
-        std::cout << "\n--- Mode Console sélectionné ---\n";
-        std::cout << "Entrez le nombre maximum d'itérations : ";
-        std::cin >> maxIterations;
-        if (maxIterations <= 0) {
-            std::cerr << "Erreur : le nombre d'itérations doit être supérieur à 0.\n";
-            return 1;
-        }
-
-        std::cout << "Entrez la vitesse d'itération (en millisecondes) : ";
-        std::cin >> iterationSpeed;
-        if (iterationSpeed <= 0) {
-            std::cerr << "Erreur : la vitesse doit être supérieure à 0.\n";
-            return 1;
-        }
-
-        game.setIterationSpeed(iterationSpeed);
-        game.setMaxIterations(maxIterations);
-
-        ConsoleView* consoleView = new ConsoleView();
-        game.setView(consoleView);
-
-        std::cout << "---------------------------------------------\n";
-        std::cout << "      Jeu de la Vie - Mode Console\n";
-        std::cout << "---------------------------------------------\n";
-        std::cout << "État initial de la grille :\n";
-        consoleView->display(*game.getGrid());
-
-        // Boucle principale pour les itérations
-        for (int i = 0; i < maxIterations; ++i) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(iterationSpeed));
-            game.updateGrid();
-            std::cout << "Itération " << i + 1 << " :\n";
-            consoleView->display(*game.getGrid());
-        }
-
-        std::cout << "---------------------------------------------\n";
-        std::cout << " Simulation terminée ! Merci d'avoir joué.\n";
-        std::cout << "---------------------------------------------\n";
-
-        delete consoleView;
-
-    }
-    else if (choice == 2) {
+    if (choice == 2) {
         // Mode Graphique
         int iterationSpeed = 200; // Vitesse initiale (en ms)
         bool isPaused = false;   // État de pause
@@ -92,14 +46,38 @@ int main() {
         // Fenêtre de Menu
         sf::RenderWindow menuWindow(sf::VideoMode(800, 600), "Menu - Jeu de la Vie");
 
+        // Charger la police
+        sf::Font font;
+        if (!font.loadFromFile("C:\\Users\\MSI 2023\\OneDrive - Association Cesi Viacesi mail\\Bureau\\AGENCYB.TTF")) {
+            std::cerr << "Erreur : Impossible de charger la police.\n";
+            return 1;
+        }
+
         // Création des boutons
         sf::RectangleShape startButton(sf::Vector2f(200, 50));
-        startButton.setPosition(300, 200);
+        startButton.setPosition(300, 150);
         startButton.setFillColor(sf::Color::Green);
 
+        sf::RectangleShape infoButton(sf::Vector2f(200, 50)); // Nouveau bouton
+        infoButton.setPosition(300, 250);
+        infoButton.setFillColor(sf::Color::Blue);
+
         sf::RectangleShape quitButton(sf::Vector2f(200, 50));
-        quitButton.setPosition(300, 300);
+        quitButton.setPosition(300, 350);
         quitButton.setFillColor(sf::Color::Red);
+
+        // Texte sur les boutons
+        sf::Text startText("Commencer", font, 24);
+        startText.setPosition(325, 160);
+        startText.setFillColor(sf::Color::White);
+
+        sf::Text infoText("En savoir plus", font, 24);
+        infoText.setPosition(315, 260);
+        infoText.setFillColor(sf::Color::White);
+
+        sf::Text quitText("Quitter", font, 24);
+        quitText.setPosition(355, 360);
+        quitText.setFillColor(sf::Color::White);
 
         // Boucle de menu
         bool startClicked = false;
@@ -119,6 +97,44 @@ int main() {
                             menuWindow.close(); // Quitter le jeu
                             return 0;
                         }
+                        else if (infoButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                            // Afficher la fenêtre d'informations
+                            sf::RenderWindow infoWindow(sf::VideoMode(600, 400), "À propos du Jeu de la Vie");
+
+                            while (infoWindow.isOpen()) {
+                                sf::Event infoEvent;
+                                while (infoWindow.pollEvent(infoEvent)) {
+                                    if (infoEvent.type == sf::Event::Closed) {
+                                        infoWindow.close();
+                                    }
+                                }
+
+                                infoWindow.clear(sf::Color::White);
+
+                                sf::Text infoText1("Le Jeu de la Vie est une simulation", font, 20);
+                                infoText1.setPosition(50, 50);
+                                infoText1.setFillColor(sf::Color::Black);
+
+                                sf::Text infoText2("inventee par John Conway.", font, 20);
+                                infoText2.setPosition(50, 100);
+                                infoText2.setFillColor(sf::Color::Black);
+
+                                sf::Text infoText3("Chaque cellule vit, meurt ou se reproduit", font, 20);
+                                infoText3.setPosition(50, 150);
+                                infoText3.setFillColor(sf::Color::Black);
+
+                                sf::Text infoText4("selon ses voisins.", font, 20);
+                                infoText4.setPosition(50, 200);
+                                infoText4.setFillColor(sf::Color::Black);
+
+                                infoWindow.draw(infoText1);
+                                infoWindow.draw(infoText2);
+                                infoWindow.draw(infoText3);
+                                infoWindow.draw(infoText4);
+
+                                infoWindow.display();
+                            }
+                        }
                     }
                 }
             }
@@ -126,7 +142,11 @@ int main() {
             // Dessiner les éléments du menu
             menuWindow.clear();
             menuWindow.draw(startButton);
+            menuWindow.draw(startText);
+            menuWindow.draw(infoButton);
+            menuWindow.draw(infoText);
             menuWindow.draw(quitButton);
+            menuWindow.draw(quitText);
             menuWindow.display();
         }
 
@@ -168,7 +188,6 @@ int main() {
 
             delete graphicView; // Libérer la mémoire après la simulation
         }
-
     }
 
     return 0;
