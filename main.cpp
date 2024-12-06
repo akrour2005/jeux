@@ -1,3 +1,4 @@
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <thread>
@@ -36,6 +37,53 @@ int main() {
     catch (const std::exception& e) {
         std::cerr << "Erreur lors de l'initialisation de la grille : " << e.what() << "\n";
         return 1;
+    }
+    if (choice != 1 && choice != 2) {
+        std::cerr << "Choix invalide. Le programme va se terminer.\n";
+        return 1; // Code d'erreur
+    }
+
+    
+
+    if (choice == 1) {
+        // Mode Console
+        int maxIterations, iterationSpeed;
+
+        std::cout << "Entrez le nombre d'itérations : ";
+        std::cin >> maxIterations;
+        if (maxIterations <= 0) {
+            std::cerr << "Nombre d'itérations invalide. Le programme va se terminer.\n";
+            return 1;
+        }
+
+        std::cout << "Entrez la vitesse d'itération (en ms) : ";
+        std::cin >> iterationSpeed;
+        if (iterationSpeed <= 0) {
+            std::cerr << "Vitesse d'itération invalide. Le programme va se terminer.\n";
+            return 1;
+        }
+
+        game.setIterationSpeed(iterationSpeed);
+        game.setMaxIterations(maxIterations);
+
+        ConsoleView* consoleView = new ConsoleView();
+        game.setView(consoleView);
+
+        // Afficher l'état initial de la grille
+        std::cout << "État initial :\n";
+        consoleView->display(*game.getGrid());
+
+        // Boucle principale du jeu en mode console
+        for (int i = 0; i < maxIterations; ++i) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(iterationSpeed));  // Pause entre les itérations
+            game.updateGrid();
+            std::cout << "Itération " << i + 1 << " :\n";
+            consoleView->display(*game.getGrid());
+        }
+
+        // Nettoyage
+        delete consoleView;
+
     }
 
     if (choice == 2) {
@@ -111,26 +159,71 @@ int main() {
 
                                 infoWindow.clear(sf::Color::White);
 
-                                sf::Text infoText1("Le Jeu de la Vie est une simulation", font, 20);
-                                infoText1.setPosition(50, 50);
-                                infoText1.setFillColor(sf::Color::Black);
+                                // Légende des commandes
+                                sf::RectangleShape pauseSquare(sf::Vector2f(30, 30));
+                                pauseSquare.setPosition(50, 50);
+                                pauseSquare.setFillColor(sf::Color::Green);
 
-                                sf::Text infoText2("inventee par John Conway.", font, 20);
-                                infoText2.setPosition(50, 100);
-                                infoText2.setFillColor(sf::Color::Black);
+                                sf::RectangleShape quitSquare(sf::Vector2f(30, 30));
+                                quitSquare.setPosition(50, 100);
+                                quitSquare.setFillColor(sf::Color::Red);
 
-                                sf::Text infoText3("Chaque cellule vit, meurt ou se reproduit", font, 20);
-                                infoText3.setPosition(50, 150);
-                                infoText3.setFillColor(sf::Color::Black);
+                                sf::RectangleShape speedUpSquare(sf::Vector2f(30, 30));
+                                speedUpSquare.setPosition(50, 150);
+                                speedUpSquare.setFillColor(sf::Color::Blue);
 
-                                sf::Text infoText4("selon ses voisins.", font, 20);
-                                infoText4.setPosition(50, 200);
-                                infoText4.setFillColor(sf::Color::Black);
+                                sf::RectangleShape slowDownSquare(sf::Vector2f(30, 30));
+                                slowDownSquare.setPosition(50, 200);
+                                slowDownSquare.setFillColor(sf::Color::Yellow);
 
-                                infoWindow.draw(infoText1);
-                                infoWindow.draw(infoText2);
-                                infoWindow.draw(infoText3);
-                                infoWindow.draw(infoText4);
+                                sf::Text pauseText("Pause (Vert)", font, 20);
+                                pauseText.setPosition(100, 55);
+                                pauseText.setFillColor(sf::Color::Black);
+
+                                sf::Text quitText("Quitter (Rouge)", font, 20);
+                                quitText.setPosition(100, 105);
+                                quitText.setFillColor(sf::Color::Black);
+
+                                sf::Text speedUpText("Augmenter la vitesse (Bleu)", font, 20);
+                                speedUpText.setPosition(100, 155);
+                                speedUpText.setFillColor(sf::Color::Black);
+
+                                sf::Text slowDownText("Diminuer la vitesse (Jaune)", font, 20);
+                                slowDownText.setPosition(100, 205);
+                                slowDownText.setFillColor(sf::Color::Black);
+
+                                // Légende des cellules
+                                sf::RectangleShape aliveSquare(sf::Vector2f(30, 30));
+                                aliveSquare.setPosition(50, 270);
+                                aliveSquare.setFillColor(sf::Color::Black);
+
+                                sf::RectangleShape deadSquare(sf::Vector2f(30, 30));
+                                deadSquare.setPosition(50, 320);
+                                deadSquare.setFillColor(sf::Color::White);
+                                deadSquare.setOutlineThickness(2);
+                                deadSquare.setOutlineColor(sf::Color::Black);
+
+                                sf::Text aliveText("Cellule vivante (Noir)", font, 20);
+                                aliveText.setPosition(100, 275);
+                                aliveText.setFillColor(sf::Color::Black);
+
+                                sf::Text deadText("Cellule morte (Blanc)", font, 20);
+                                deadText.setPosition(100, 325);
+                                deadText.setFillColor(sf::Color::Black);
+
+                                // Dessiner les éléments
+                                infoWindow.draw(pauseSquare);
+                                infoWindow.draw(quitSquare);
+                                infoWindow.draw(speedUpSquare);
+                                infoWindow.draw(slowDownSquare);
+                                infoWindow.draw(pauseText);
+                                infoWindow.draw(quitText);
+                                infoWindow.draw(speedUpText);
+                                infoWindow.draw(slowDownText);
+                                infoWindow.draw(aliveSquare);
+                                infoWindow.draw(deadSquare);
+                                infoWindow.draw(aliveText);
+                                infoWindow.draw(deadText);
 
                                 infoWindow.display();
                             }
@@ -149,7 +242,6 @@ int main() {
             menuWindow.draw(quitText);
             menuWindow.display();
         }
-
         if (startClicked) {
             // Créer et afficher la fenêtre de simulation après avoir cliqué sur Start
             sf::RenderWindow window(sf::VideoMode(800, 600), "Jeu de la Vie - Mode Graphique");

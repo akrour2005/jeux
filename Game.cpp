@@ -1,42 +1,34 @@
-
 #include "Game.h"
 #include <thread>
 #include <chrono>
 #include <iostream>
 
 Game::Game(int width, int height) {
-    grid = new Grid(width, height);  // Allocation de mémoire pour la grille
-    view = nullptr;  // Initialiser le pointeur de vue à nullptr
+    grid = new Grid(width, height);
+    view = nullptr;
     maxIterations = 0;
     iterationSpeed = 0;
 }
 
 Game::~Game() {
-    // Vérifier si view est non nul avant de le supprimer
-    if (view) {
-        delete view;
-        view = nullptr; // Éviter tout accès futur à un objet déjà supprimé
-    }
-
-    // Libérer la mémoire de grid
     delete grid;
-    grid = nullptr; // S'assurer qu'on ne tente pas de réutiliser grid après suppression
+    delete view;
 }
 
 void Game::initialize(const std::string& inputFile) {
-    grid->initializeGrid(inputFile);  // Initialiser la grille à partir du fichier
+    grid->initializeGrid(inputFile);
 }
 
 void Game::setView(View* viewType) {
-    view = viewType;  // Assigner une vue
+    view = viewType;
 }
 
 void Game::setMaxIterations(int iterations) {
-    maxIterations = iterations;  // Définir le nombre d'itérations
+    maxIterations = iterations;
 }
 
 void Game::setIterationSpeed(int speed) {
-    iterationSpeed = speed;  // Définir la vitesse d'itération
+    iterationSpeed = speed;
 }
 
 void Game::start() {
@@ -46,17 +38,18 @@ void Game::start() {
     }
 
     for (int i = 0; i < maxIterations; ++i) {
-        std::cout << "Itération " << i + 1 << " :\n";
-        view->display(*grid);  // Afficher la grille
-        grid->updateGrid();  // Mettre à jour la grille
-        std::this_thread::sleep_for(std::chrono::milliseconds(iterationSpeed));  // Attendre un certain temps
+        std::cout << "Iteration " << i + 1 << ":\n";
+        view->display(*grid);  // Affichage des cellules sous forme de 1 et 0
+        grid->saveState("iteration_" + std::to_string(i + 1) + ".txt");  // Sauvegarde de l'état
+        grid->updateGrid();  // Mise à jour de la grille selon les règles de Conway
+        std::this_thread::sleep_for(std::chrono::milliseconds(iterationSpeed));  // Attente avant la prochaine itération
     }
 }
 
 void Game::updateGrid() {
-    grid->updateGrid();  // Mettre à jour la grille
+    grid->updateGrid();
 }
 
 Grid* Game::getGrid() {
-    return grid;  // Retourner la grille
+    return grid;
 }
