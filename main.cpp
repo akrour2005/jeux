@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "ConsoleView.h"
 #include "GraphicView.h"
+#include <fstream>
 
 int main() {
     int width = 40, height = 40;          // Taille de la grille
@@ -43,7 +44,7 @@ int main() {
         return 1; // Code d'erreur
     }
 
-    
+
 
     if (choice == 1) {
         // Mode Console
@@ -72,6 +73,31 @@ int main() {
         // Afficher l'état initial de la grille
         std::cout << "État initial :\n";
         consoleView->display(*game.getGrid());
+        // Répertoire pour sauvegarder les fichiers de sortie
+        std::string outputDir = "C:\\Users\\MSI 2023\\jeux-de-la-vie\\jeux de la vie\\fichier_out\\";
+
+        // Boucle principale du jeu en mode console
+        for (int i = 0; i < maxIterations; ++i) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(iterationSpeed));  // Pause entre les itérations
+            game.updateGrid();
+            std::cout << "Itération " << i + 1 << " :\n";
+            consoleView->display(*game.getGrid());
+
+            // Sauvegarder l'état de la grille dans un fichier texte
+            std::ofstream outFile(outputDir + "iteration_" + std::to_string(i + 1) + ".txt");
+            if (outFile.is_open()) {
+                for (int y = 0; y < height; ++y) {
+                    for (int x = 0; x < width; ++x) {
+                        outFile << (game.getGrid()->getCellState(x, y) ? 'O' : '.'); // Par exemple : 'O' pour vivant, '.' pour mort
+                    }
+                    outFile << "\n";
+                }
+                outFile.close();
+            }
+            else {
+                std::cerr << "Erreur : Impossible de sauvegarder l'itération " << i + 1 << ".\n";
+            }
+        }
 
         // Boucle principale du jeu en mode console
         for (int i = 0; i < maxIterations; ++i) {
