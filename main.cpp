@@ -1,4 +1,5 @@
 
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <thread>
@@ -275,6 +276,40 @@ int main() {
             GraphicView* graphicView = new GraphicView(width, height, 20, iterationSpeed);
             game.setView(graphicView);
 
+            // Création des rectangles pour les boutons supplémentaires
+            sf::RectangleShape pauseSquare(sf::Vector2f(30, 30));
+            pauseSquare.setPosition(50, 50);  // Position du bouton Pause
+            pauseSquare.setFillColor(sf::Color::Green);
+
+            sf::RectangleShape quitSquare(sf::Vector2f(30, 30));
+            quitSquare.setPosition(50, 100);  // Position du bouton Quitter
+            quitSquare.setFillColor(sf::Color::Red);
+
+            sf::RectangleShape speedUpSquare(sf::Vector2f(30, 30));
+            speedUpSquare.setPosition(50, 150);  // Position du bouton Augmenter la vitesse
+            speedUpSquare.setFillColor(sf::Color::Blue);
+
+            sf::RectangleShape slowDownSquare(sf::Vector2f(30, 30));
+            slowDownSquare.setPosition(50, 200);  // Position du bouton Diminuer la vitesse
+            slowDownSquare.setFillColor(sf::Color::Yellow);
+
+            // Texte pour les boutons
+            sf::Text pauseText("Pause", font, 20);
+            pauseText.setPosition(100, 50);
+            pauseText.setFillColor(sf::Color::Black);
+
+            sf::Text quitText("Quitter", font, 20);
+            quitText.setPosition(100, 100);
+            quitText.setFillColor(sf::Color::Black);
+
+            sf::Text speedUpText("Vitesse+", font, 20);
+            speedUpText.setPosition(100, 150);
+            speedUpText.setFillColor(sf::Color::Black);
+
+            sf::Text slowDownText("Vitesse-", font, 20);
+            slowDownText.setPosition(100, 200);
+            slowDownText.setFillColor(sf::Color::Black);
+
             // Boucle principale pour les itérations graphiques
             while (window.isOpen()) {
                 sf::Event event;
@@ -282,15 +317,32 @@ int main() {
                     if (event.type == sf::Event::Closed) {
                         window.close();
                     }
+                    else if (event.type == sf::Event::MouseButtonPressed) {
+                        if (event.mouseButton.button == sf::Mouse::Left) {
+                            // Vérifier si l'un des boutons est cliqué
+                            if (pauseSquare.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                                isPaused = !isPaused; // Mettre en pause ou reprendre
+                            }
+                            else if (quitSquare.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                                window.close(); // Quitter la simulation
+                            }
+                            else if (speedUpSquare.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                                iterationSpeed = std::max(50, iterationSpeed - 50); // Augmenter la vitesse
+                            }
+                            else if (slowDownSquare.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                                iterationSpeed += 50; // Diminuer la vitesse
+                            }
+                        }
+                    }
                     else if (event.type == sf::Event::KeyPressed) {
                         if (event.key.code == sf::Keyboard::Up) {
-                            iterationSpeed = std::max(50, iterationSpeed - 50); // Augmente la vitesse
+                            iterationSpeed = std::max(50, iterationSpeed - 50); // Augmenter la vitesse
                         }
                         else if (event.key.code == sf::Keyboard::Down) {
-                            iterationSpeed += 50; // Diminue la vitesse
+                            iterationSpeed += 50; // Diminuer la vitesse
                         }
                         else if (event.key.code == sf::Keyboard::Space) {
-                            isPaused = !isPaused; // Met en pause ou reprend
+                            isPaused = !isPaused; // Mettre en pause ou reprendre
                         }
                     }
                 }
@@ -299,6 +351,17 @@ int main() {
                     game.updateGrid();
                     window.clear();
                     graphicView->display(*game.getGrid());
+
+                    // Dessiner les boutons
+                    window.draw(pauseSquare);
+                    window.draw(quitSquare);
+                    window.draw(speedUpSquare);
+                    window.draw(slowDownSquare);
+                    window.draw(pauseText);
+                    window.draw(quitText);
+                    window.draw(speedUpText);
+                    window.draw(slowDownText);
+
                     window.display();
                     sf::sleep(sf::milliseconds(iterationSpeed)); // Attente en fonction de la vitesse
                 }
@@ -306,7 +369,8 @@ int main() {
 
             delete graphicView; // Libérer la mémoire après la simulation
         }
+
+        }
+        return 0;
     }
 
-    return 0;
-}
