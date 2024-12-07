@@ -1,5 +1,6 @@
 
 
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <thread>
@@ -174,6 +175,7 @@ int main() {
                         }
                         else if (infoButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                             // Afficher la fenêtre d'informations
+                            // Afficher la fenêtre d'informations
                             sf::RenderWindow infoWindow(sf::VideoMode(600, 400), "À propos du Jeu de la Vie");
 
                             while (infoWindow.isOpen()) {
@@ -186,59 +188,87 @@ int main() {
 
                                 infoWindow.clear(sf::Color::White);
 
-                                // Légende des commandes
-                                sf::RectangleShape pauseSquare(sf::Vector2f(30, 30));
-                                pauseSquare.setPosition(50, 50);
-                                pauseSquare.setFillColor(sf::Color::Green);
+                                // Découper la fenêtre en deux parties
+                                // Partie supérieure (règles du jeu)
+                                sf::RectangleShape topSection(sf::Vector2f(600, 200)); // Partie haute
+                                topSection.setPosition(0, 0);
+                                topSection.setFillColor(sf::Color(220, 220, 220)); // Gris clair
+                                infoWindow.draw(topSection);
 
-                                sf::RectangleShape quitSquare(sf::Vector2f(30, 30));
-                                quitSquare.setPosition(50, 100);
-                                quitSquare.setFillColor(sf::Color::Red);
+                                // Partie inférieure (carrés des cellules et commandes)
+                                sf::RectangleShape bottomSection(sf::Vector2f(600, 200)); // Partie basse
+                                bottomSection.setPosition(0, 200);
+                                bottomSection.setFillColor(sf::Color(240, 240, 240)); // Gris plus clair
+                                infoWindow.draw(bottomSection);
 
-                                sf::RectangleShape speedUpSquare(sf::Vector2f(30, 30));
-                                speedUpSquare.setPosition(50, 150);
-                                speedUpSquare.setFillColor(sf::Color::Blue);
+                                // Texte des règles du Jeu de la Vie (partie haute, centré)
+                                sf::Text rulesText("Règles du Jeu de la Vie :\n\n"
+                                    "1. Une cellule vivante avec moins de 2 voisins meurt.\n"
+                                    "2. Une cellule vivante avec 2 ou 3 voisins reste vivante.\n"
+                                    "3. Une cellule vivante avec plus de 3 voisins meurt.\n"
+                                    "4. Une cellule morte avec exactement 3 voisins devient vivante.\n", font, 18);
+                                rulesText.setPosition(150, 50); // Centrer le texte
+                                rulesText.setFillColor(sf::Color::Black);
+                                infoWindow.draw(rulesText);
 
-                                sf::RectangleShape slowDownSquare(sf::Vector2f(30, 30));
-                                slowDownSquare.setPosition(50, 200);
-                                slowDownSquare.setFillColor(sf::Color::Yellow);
-
-                                sf::Text pauseText("Pause (Vert)", font, 20);
-                                pauseText.setPosition(100, 55);
-                                pauseText.setFillColor(sf::Color::Black);
-
-                                sf::Text quitText("Quitter (Rouge)", font, 20);
-                                quitText.setPosition(100, 105);
-                                quitText.setFillColor(sf::Color::Black);
-
-                                sf::Text speedUpText("Augmenter la vitesse (Bleu)", font, 20);
-                                speedUpText.setPosition(100, 155);
-                                speedUpText.setFillColor(sf::Color::Black);
-
-                                sf::Text slowDownText("Diminuer la vitesse (Jaune)", font, 20);
-                                slowDownText.setPosition(100, 205);
-                                slowDownText.setFillColor(sf::Color::Black);
-
-                                // Légende des cellules
+                                // Légende des cellules (partie basse - bas à gauche)
                                 sf::RectangleShape aliveSquare(sf::Vector2f(30, 30));
-                                aliveSquare.setPosition(50, 270);
+                                aliveSquare.setPosition(50, 230); // Ajusté pour être un peu plus haut
                                 aliveSquare.setFillColor(sf::Color::Black);
 
                                 sf::RectangleShape deadSquare(sf::Vector2f(30, 30));
-                                deadSquare.setPosition(50, 320);
+                                deadSquare.setPosition(50, 270); // Ajusté pour être un peu plus haut
                                 deadSquare.setFillColor(sf::Color::White);
                                 deadSquare.setOutlineThickness(2);
                                 deadSquare.setOutlineColor(sf::Color::Black);
 
                                 sf::Text aliveText("Cellule vivante (Noir)", font, 20);
-                                aliveText.setPosition(100, 275);
+                                aliveText.setPosition(90, 235); // Ajusté pour être plus haut
                                 aliveText.setFillColor(sf::Color::Black);
 
                                 sf::Text deadText("Cellule morte (Blanc)", font, 20);
-                                deadText.setPosition(100, 325);
+                                deadText.setPosition(90, 275); // Ajusté pour être plus haut
                                 deadText.setFillColor(sf::Color::Black);
 
-                                // Dessiner les éléments
+                                // Légende des commandes (partie basse - bas au centre)
+                                sf::RectangleShape pauseSquare(sf::Vector2f(30, 30));
+                                pauseSquare.setPosition(250, 230); // Ajusté pour se rapprocher du centre et plus haut
+                                pauseSquare.setFillColor(sf::Color::Green);
+
+                                sf::RectangleShape quitSquare(sf::Vector2f(30, 30));
+                                quitSquare.setPosition(250, 270); // Ajusté pour se rapprocher du centre et plus haut
+                                quitSquare.setFillColor(sf::Color::Red);
+
+                                sf::RectangleShape speedUpSquare(sf::Vector2f(30, 30));
+                                speedUpSquare.setPosition(250, 310); // Ajusté pour se rapprocher du centre et plus haut
+                                speedUpSquare.setFillColor(sf::Color::Blue);
+
+                                sf::RectangleShape slowDownSquare(sf::Vector2f(30, 30));
+                                slowDownSquare.setPosition(250, 350); // Ajusté pour se rapprocher du centre et plus haut
+                                slowDownSquare.setFillColor(sf::Color::Yellow);
+
+                                sf::Text pauseText("Pause (Vert)", font, 20);
+                                pauseText.setPosition(290, 235); // Ajusté pour se rapprocher du centre et plus haut
+                                pauseText.setFillColor(sf::Color::Black);
+
+                                sf::Text quitText("Quitter (Rouge)", font, 20);
+                                quitText.setPosition(290, 275); // Ajusté pour se rapprocher du centre et plus haut
+                                quitText.setFillColor(sf::Color::Black);
+
+                                sf::Text speedUpText("Augmenter la vitesse (Bleu)", font, 20);
+                                speedUpText.setPosition(290, 315); // Ajusté pour se rapprocher du centre et plus haut
+                                speedUpText.setFillColor(sf::Color::Black);
+
+                                sf::Text slowDownText("Diminuer la vitesse (Jaune)", font, 20);
+                                slowDownText.setPosition(290, 355); // Ajusté pour se rapprocher du centre et plus haut
+                                slowDownText.setFillColor(sf::Color::Black);
+
+                                // Dessiner les éléments de la légende
+                                infoWindow.draw(aliveSquare);
+                                infoWindow.draw(deadSquare);
+                                infoWindow.draw(aliveText);
+                                infoWindow.draw(deadText);
+
                                 infoWindow.draw(pauseSquare);
                                 infoWindow.draw(quitSquare);
                                 infoWindow.draw(speedUpSquare);
@@ -247,13 +277,11 @@ int main() {
                                 infoWindow.draw(quitText);
                                 infoWindow.draw(speedUpText);
                                 infoWindow.draw(slowDownText);
-                                infoWindow.draw(aliveSquare);
-                                infoWindow.draw(deadSquare);
-                                infoWindow.draw(aliveText);
-                                infoWindow.draw(deadText);
 
+                                // Afficher la fenêtre
                                 infoWindow.display();
                             }
+                         
                         }
                     }
                 }
