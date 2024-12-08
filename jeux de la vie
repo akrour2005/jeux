@@ -1,0 +1,79 @@
+Jeu de la Vie (Conway's Game of Life):
+
+Ce projet implémente le célèbre Jeu de la Vie de John Conway, une simulation de cellules vivantes et mortes qui évoluent en fonction de règles simples.
+Le jeu propose deux modes d'affichage : un mode console pour une visualisation simple et un mode graphique utilisant SFML pour une expérience plus interactive.
+Fonctionnalités
+Mode Console : Vue textuelle du jeu dans la console.
+Mode Graphique : Interface utilisateur interactive avec des boutons pour contrôler la simulation (pause, vitesse, etc.).
+
+Règles du Jeu de la Vie :
+
+Une cellule vivante avec moins de 2 voisins meurt.
+Une cellule vivante avec 2 ou 3 voisins reste vivante.
+Une cellule vivante avec plus de 3 voisins meurt.
+Une cellule morte avec exactement 3 voisins devient vivante.
+Prérequis
+SFML (pour le mode graphique)
+C++11 ou version supérieure
+Compilateur compatible avec C++ (ex. : GCC, Clang, MSVC)
+Installation de SFML:
+Windows :
+
+Téléchargez SFML depuis le site officiel de SFML.
+Suivez les instructions d'installation pour Windows.  
+Utilisation
+
+
+1. Mode Console
+Lors du lancement, choisissez le mode console.
+Saisissez le nombre d'itérations et la vitesse d'exécution.
+L'état de la grille sera affiché à chaque itération dans la console.
+L'état de chaque itération sera sauvegardé dans un fichier texte dans le répertoire spécifié.
+ Mode Graphique
+Lors du lancement, choisissez le mode graphique.
+Une interface graphique vous permettra de démarrer la simulation et de contrôler sa vitesse, ainsi que de mettre en pause ou de quitter la simulation.
+Le jeu affiche une grille de cellules vivantes et mortes, avec des boutons pour interagir avec la simulation.
+Fonctionnalités supplémentaires
+Affichage des règles du Jeu de la Vie dans le menu d'informations.
+Contrôle interactif de la vitesse d'exécution (augmenter/diminuer la vitesse).
+Mode pause pour suspendre la simulation.
+
+
+Structure du projet:
+/jeu-de-la-vie
+│
+├── composants/              # Définit les éléments de base du jeu
+│   ├── AliveCell.h          # Classe représentant une cellule vivante
+│   ├── Cell.h               # Classe de base pour les cellules
+│   ├── DeadCell.h           # Classe représentant une cellule morte
+│   ├── Grid.h               # Classe gérant la grille du jeu
+│   ├── AliveCell.cpp        # Implémentation des cellules vivantes
+│   ├── Cell.cpp             # Implémentation de la classe Cell
+│   ├── DeadCell.cpp         # Implémentation des cellules mortes
+│   └── Grid.cpp             # Implémentation de la grille
+│
+├── ihm/                     # Interface utilisateur (console et graphique)
+│   ├── ConsoleView.h        # Affichage console
+│   ├── GraphicView.h        # Affichage graphique (SFML)
+│   ├── InteractionHandler.h # Gestion des interactions utilisateur
+│   ├── menu.h               # Gestion du menu
+│   ├── View.h               # Classe de base pour les vues
+│   ├── ConsoleView.cpp      # Implémentation de l'affichage console
+│   ├── GraphicView.cpp      # Implémentation de l'affichage graphique
+│   ├── InteractionHandler.cpp # Gestion des interactions
+│   ├── menu.cpp             # Implémentation du menu
+│   └── View.cpp             # Implémentation de la classe de base des vues
+│
+├── service/                 # Logique principale du jeu
+│   ├── Game.h               # Classe gérant les règles et l'évolution du jeu
+│   └── Game.cpp             # Implémentation des règles et de la logique
+│
+├── fichier.txt              # Fichier d'entrée pour initialiser la grille
+└── main.cpp                 # Point d'entrée du programme
+
+Auteurs:
+AKROUR ABDENOUR
+YAICHE TEMAM Yacine
+Collaborateurs :
+Yasmine
+maryam
