@@ -281,7 +281,7 @@ int main() {
                                 // Afficher la fenêtre
                                 infoWindow.display();
                             }
-                         
+
                         }
                     }
                 }

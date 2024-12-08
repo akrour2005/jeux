@@ -1,4 +1,5 @@
 
+
 #ifndef GRID_H
 #define GRID_H
 
@@ -27,6 +28,9 @@ public:
     bool getCellState(int x, int y) const;
     int getWidth() const;
     int getHeight() const;
+    void testGridValidity();
+    void createGlider(int startX, int startY);
+   
 };
 
 #endif

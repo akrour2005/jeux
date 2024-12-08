@@ -54,3 +54,4 @@ void Game::updateGrid() {
 Grid* Game::getGrid() {
     return grid;
 }
+

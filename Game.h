@@ -40,6 +40,7 @@ public:
 
     // Obtenir la grille
     Grid* getGrid();
+   
 };
 
 #endif
