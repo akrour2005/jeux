@@ -203,13 +203,17 @@ int main() {
 
                                 // Texte des règles du Jeu de la Vie (partie haute, centré)
                                 sf::Text rulesText("Règles du Jeu de la Vie :\n\n"
+                                    "Appuyez sur 'T' pour le test unitaire\n"
+                                    "Appuyez sur 'G' pour afficher un Glider\n"
                                     "1. Une cellule vivante avec moins de 2 voisins meurt.\n"
                                     "2. Une cellule vivante avec 2 ou 3 voisins reste vivante.\n"
                                     "3. Une cellule vivante avec plus de 3 voisins meurt.\n"
-                                    "4. Une cellule morte avec exactement 3 voisins devient vivante.\n", font, 18);
-                                rulesText.setPosition(150, 50); // Centrer le texte
+                                    "4. Une cellule morte avec exactement 3 voisins devient vivante.\n" 
+                                    , font, 18);
+                                rulesText.setPosition(150, 20); // Centrer le texte
                                 rulesText.setFillColor(sf::Color::Black);
                                 infoWindow.draw(rulesText);
+                                
 
                                 // Légende des cellules (partie basse - bas à gauche)
                                 sf::RectangleShape aliveSquare(sf::Vector2f(30, 30));
